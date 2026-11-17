@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>/isle</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Single:wght@300..900&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			:root {
+				font-family: "Bitcount Grid Single", monospace;
+			}
+
+			* {
+				box-sizing: border-box;
+			}
+
+			body {
+				--page-bg: #050505;
+				--grid-line: rgb(255 255 255 / 6%);
+				--glow: #171717;
+				--text: #f5f5f5;
+				--muted: #686868;
+				--field-bg: #030303;
+				--field-border: #111;
+				--field-glow: rgb(255 255 255 / 10%);
+				--accent: #aaa;
+				color-scheme: dark;
+				display: grid;
+				width: 100%;
+				min-width: 240px;
+				min-height: 100vh;
+				margin: 0;
+				place-items: center;
+				background-color: var(--page-bg);
+				background-image:
+					linear-gradient(var(--grid-line) 1px, transparent 1px),
+					linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+					radial-gradient(ellipse at center, var(--glow) 0, var(--page-bg) 78%);
+				background-size:
+					32px 32px,
+					32px 32px,
+					100% 100%;
+				color: var(--text);
+			}
+
+			body[data-theme="stark-day"] {
+				--page-bg: #f4f3ef;
+				--grid-line: rgb(25 25 25 / 8%);
+				--glow: #fff;
+				--text: #202020;
+				--muted: #666;
+				--field-bg: #fff;
+				--field-border: #d3d1ca;
+				--field-glow: rgb(25 25 25 / 10%);
+				--accent: #333;
+				color-scheme: light;
+			}
+
+			body[data-theme="captain-night"] {
+				--page-bg: #071426;
+				--grid-line: rgb(135 175 225 / 9%);
+				--glow: #142a48;
+				--muted: #9ab2cf;
+				--field-bg: #050d19;
+				--field-border: #1d3655;
+				--field-glow: rgb(74 133 207 / 22%);
+				--accent: #b7d5ff;
+			}
+
+			body[data-theme="captain-day"] {
+				--page-bg: #e8f0fb;
+				--grid-line: rgb(24 58 103 / 9%);
+				--glow: #fff;
+				--text: #142b48;
+				--muted: #506b8b;
+				--field-bg: #f9fbff;
+				--field-border: #bfcee1;
+				--field-glow: rgb(36 87 150 / 17%);
+				--accent: #244f83;
+				color-scheme: light;
+			}
+
+			body[data-theme="wanda-night"] {
+				--page-bg: #210d20;
+				--grid-line: rgb(235 150 224 / 9%);
+				--glow: #401d3c;
+				--muted: #d2a3cb;
+				--field-bg: #160914;
+				--field-border: #51264b;
+				--field-glow: rgb(224 87 195 / 22%);
+				--accent: #ffc2f1;
+			}
+
+			body[data-theme="wanda-day"] {
+				--page-bg: #fff0fa;
+				--grid-line: rgb(106 38 88 / 8%);
+				--glow: #fff;
+				--text: #421a39;
+				--muted: #805274;
+				--field-bg: #fffaff;
+				--field-border: #e7bfdc;
+				--field-glow: rgb(175 57 139 / 16%);
+				--accent: #8c326f;
+				color-scheme: light;
+			}
+
+			body[data-theme="spider-night"] {
+				--page-bg: #20090b;
+				--grid-line: rgb(255 130 130 / 9%);
+				--glow: #451416;
+				--muted: #d59b9d;
+				--field-bg: #120506;
+				--field-border: #572024;
+				--field-glow: rgb(232 58 65 / 23%);
+				--accent: #ffb1b1;
+			}
+
+			body[data-theme="spider-day"] {
+				--page-bg: #fff0ef;
+				--grid-line: rgb(100 25 28 / 8%);
+				--glow: #fff;
+				--text: #421719;
+				--muted: #805052;
+				--field-bg: #fffafa;
+				--field-border: #e8c1c1;
+				--field-glow: rgb(184 42 48 / 16%);
+				--accent: #a22930;
+				color-scheme: light;
+			}
+
+			body[data-theme="hulk-night"] {
+				--page-bg: #0c190c;
+				--grid-line: rgb(163 235 135 / 9%);
+				--glow: #1b3518;
+				--muted: #a6c99c;
+				--field-bg: #071007;
+				--field-border: #294b25;
+				--field-glow: rgb(113 211 71 / 22%);
+				--accent: #c2ffa9;
+			}
+
+			body[data-theme="hulk-day"] {
+				--page-bg: #eff8e9;
+				--grid-line: rgb(37 79 27 / 8%);
+				--glow: #fff;
+				--text: #20371a;
+				--muted: #58744e;
+				--field-bg: #fbfff8;
+				--field-border: #c9dbbf;
+				--field-glow: rgb(75 135 48 / 16%);
+				--accent: #3b7028;
+				color-scheme: light;
+			}
+
+			body[data-theme="iron-night"] {
+				--page-bg: #1e1706;
+				--grid-line: rgb(255 220 119 / 9%);
+				--glow: #40300d;
+				--muted: #d1bd86;
+				--field-bg: #120e04;
+				--field-border: #594514;
+				--field-glow: rgb(241 183 41 / 23%);
+				--accent: #ffe28c;
+			}
+
+			body[data-theme="iron-day"] {
+				--page-bg: #fff7dc;
+				--grid-line: rgb(96 67 11 / 8%);
+				--glow: #fff;
+				--text: #3c2d0b;
+				--muted: #79642f;
+				--field-bg: #fffdf5;
+				--field-border: #e4d39d;
+				--field-glow: rgb(170 125 23 / 17%);
+				--accent: #8b6711;
+				color-scheme: light;
+			}
+
+			main {
+				display: flex;
+				width: min(420px, calc(100% - 40px));
+				flex-direction: column;
+				align-items: center;
+				gap: clamp(42px, 10vh, 68px);
+				padding: 24px 0;
+				animation: homepage-enter 520ms cubic-bezier(0.2, 0.75, 0.35, 1) both;
+			}
+
+			h1 {
+				margin: 0;
+				color: var(--text);
+				font-size: clamp(2.5rem, 11vw, 3.5rem);
+				font-weight: 500;
+				letter-spacing: 0.02em;
+				line-height: 1;
+				text-shadow: 0 0 18px rgb(255 255 255 / 22%);
+				animation: homepage-enter 620ms cubic-bezier(0.2, 0.75, 0.35, 1) both;
+			}
+
+			.search-hint {
+				display: flex;
+				width: 100%;
+				min-height: 48px;
+				padding: 0 12px;
+				align-items: center;
+				border: 1px solid var(--field-border);
+				border-radius: 999px;
+				background: var(--field-bg);
+				box-shadow: 0 0 32px var(--field-glow);
+				transition:
+					border-color 180ms ease,
+					box-shadow 180ms ease,
+					color 180ms ease;
+				animation: homepage-enter 680ms 70ms cubic-bezier(0.2, 0.75, 0.35, 1) both;
+			}
+
+			.search-hint:hover,
+			.search-hint:focus-within {
+				border-color: var(--accent);
+				box-shadow: 0 0 34px var(--field-glow);
+			}
+
+			.search-input {
+				width: 100%;
+				min-width: 0;
+				min-height: 44px;
+				padding: 0 8px;
+				border: 0;
+				outline: 0;
+				background: transparent;
+				color: var(--text);
+				font: inherit;
+				font-size: 0.85rem;
+				letter-spacing: 0.04em;
+				text-align: center;
+			}
+
+			.search-input::placeholder {
+				color: var(--muted);
+				opacity: 1;
+			}
+
+			.search-input:focus::placeholder {
+				opacity: 0.65;
+			}
+
+			.settings-button {
+				position: fixed;
+				right: 18px;
+				bottom: 18px;
+				display: grid;
+				width: 38px;
+				height: 38px;
+				padding: 0;
+				place-items: center;
+				border: 1px solid var(--field-border);
+				border-radius: 50%;
+				background: var(--field-bg);
+				box-shadow: 0 0 18px var(--field-glow);
+				color: var(--text);
+				font: inherit;
+				font-size: 1.15rem;
+				cursor: pointer;
+				transition:
+					transform 180ms ease,
+					border-color 180ms ease,
+					color 180ms ease;
+				animation: settings-enter 400ms 250ms ease-out both;
+			}
+
+			.settings-button:hover,
+			.settings-button:focus-visible {
+				border-color: var(--accent);
+				color: var(--accent);
+				transform: rotate(30deg);
+			}
+
+			.settings-dialog {
+				position: fixed;
+				inset: auto 18px 66px auto;
+				width: min(320px, calc(100vw - 36px));
+				max-width: none;
+				max-height: min(80vh, 500px);
+				overflow-y: auto;
+				margin: 0;
+				padding: 20px;
+				border: 1px solid var(--field-border);
+				border-radius: 12px;
+				background: var(--page-bg);
+				box-shadow: 0 12px 48px rgb(0 0 0 / 45%);
+				color: var(--text);
+				font-family: "Bitcount Grid Single", monospace;
+			}
+
+			.settings-dialog::backdrop {
+				background: rgb(0 0 0 / 28%);
+			}
+
+			.settings-header {
+				display: flex;
+				margin-bottom: 18px;
+				align-items: center;
+				justify-content: space-between;
+			}
+
+			.settings-header h2 {
+				margin: 0;
+				font-size: 1.2rem;
+				font-weight: 500;
+			}
+
+			.close-settings {
+				width: 30px;
+				height: 30px;
+				border: 1px solid var(--field-border);
+				border-radius: 50%;
+				background: var(--field-bg);
+				color: var(--text);
+				font: inherit;
+				cursor: pointer;
+			}
+
+			.setting {
+				display: grid;
+				gap: 8px;
+				margin-top: 16px;
+				font-size: 0.88rem;
+			}
+
+			.setting select,
+			.setting input {
+				width: 100%;
+				min-height: 40px;
+				padding: 6px 10px;
+				border: 1px solid var(--field-border);
+				border-radius: 6px;
+				background: var(--field-bg);
+				color: var(--text);
+				font: inherit;
+				font-size: 0.8rem;
+			}
+
+			.setting-checkbox {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 12px;
+			}
+
+			.setting-checkbox input {
+				width: 18px;
+				min-height: 18px;
+				accent-color: var(--accent);
+			}
+
+			.settings-status {
+				min-height: 1.2em;
+				margin: 14px 0 0;
+				color: var(--muted);
+				font-size: 0.72rem;
+			}
+
+			.setting-actions {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+				margin-top: 16px;
+			}
+
+			.setting-actions button,
+			.dev-options button {
+				min-height: 36px;
+				padding: 6px 12px;
+				border: 1px solid var(--field-border);
+				border-radius: 6px;
+				background: var(--field-bg);
+				color: var(--text);
+				font: inherit;
+				font-size: 0.78rem;
+				cursor: pointer;
+			}
+
+			.setting-actions button:hover,
+			.dev-options button:hover {
+				border-color: var(--accent);
+				color: var(--accent);
+			}
+
+			.dev-options {
+				margin-top: 18px;
+				border-top: 1px solid var(--field-border);
+			}
+
+			.dev-options summary {
+				padding: 14px 0 4px;
+				color: var(--text);
+				font-size: 0.88rem;
+				cursor: pointer;
+			}
+
+			.dev-actions {
+				display: grid;
+				gap: 8px;
+				padding-top: 12px;
+			}
+
+			.dev-actions button {
+				width: 100%;
+				text-align: left;
+			}
+
+			@keyframes homepage-enter {
+				from {
+					opacity: 0;
+					transform: translateY(10px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			@keyframes settings-enter {
+				from {
+					opacity: 0;
+					transform: scale(0.82);
+				}
+				to {
+					opacity: 1;
+					transform: scale(1);
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				main,
+				h1,
+				.search-hint,
+				.settings-button {
+					animation: none;
+					transition: none;
+				}
+
+				.search-hint {
+					transition: none;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<h1>/isle</h1>
+			<form class="search-hint" id="homepage-search" role="search">
+				<input
+					class="search-input"
+					id="homepage-query"
+					type="text"
+					placeholder="search, or type a url"
+					aria-label="search, or type a url"
+					autocomplete="off"
+					spellcheck="false"
+				/>
+			</form>
+		</main>
+		<button class="settings-button" id="settings-button" type="button" aria-label="Settings" title="Settings">
+			🍁
+		</button>
+		<dialog class="settings-dialog" id="settings-dialog" aria-labelledby="settings-title">
+			<div class="settings-header">
+				<h2 id="settings-title">Settings</h2>
+				<button class="close-settings" id="close-settings" type="button" aria-label="close">×</button>
+			</div>
+			<label class="setting" for="theme-select">
+				Appearance
+				<select id="theme-select">
+					<option value="stark-night">Isle · Dark</option>
+					<option value="stark-day">Isle · Light</option>
+					<option value="captain-night">Denim · Dark</option>
+					<option value="captain-day">Denim · Navy · Light</option>
+					<option value="wanda-night">Pyaar · Pink · Dark</option>
+					<option value="wanda-day">Pyaar · Pink · Light</option>
+					<option value="spider-night">Slade · Red · Dark</option>
+					<option value="spider-day">Slade · Red · Light</option>
+					<option value="hulk-night">Banner · Green · Dark</option>
+					<option value="hulk-day">Banner · Green · Light</option>
+					<option value="iron-night">Sentry · Yellow · Dark</option>
+					<option value="iron-day">Sunny LeBron · Yellow · Light</option>
+				</select>
+			</label>
+			<label class="setting" for="cloak-select">
+				Tab cloak
+				<select id="cloak-select">
+					<option value="none">Off</option>
+					<option value="gmail">Gmail</option>
+					<option value="coursera">Coursera</option>
+					<option value="classroom">Google Classroom</option>
+					<option value="clever">Clever</option>
+				</select>
+			</label>
+			<label class="setting setting-checkbox" for="active-client-count">
+				<span>Show active clients</span>
+				<input id="active-client-count" type="checkbox" checked />
+			</label>
+			<label class="setting" for="wisp-url">
+				Wisp server
+				<input
+					class="setting-control"
+					id="wisp-url"
+					type="text"
+					placeholder="wss://example.com/wisp/"
+					autocomplete="url"
+					spellcheck="false"
+				/>
+			</label>
+			<label class="setting" for="transport-select">
+				Transport
+				<select id="transport-select">
+					<option value="libcurl">Libcurl</option>
+					<option value="epoxy">Epoxy</option>
+				</select>
+			</label>
+			<label class="setting" for="home-url">
+				Home page URL
+				<input
+					class="setting-control"
+					id="home-url"
+					type="text"
+					placeholder="https://example.com/"
+					autocomplete="url"
+					spellcheck="false"
+				/>
+			</label>
+			<label class="setting" for="max-requests">
+				Request log limit
+				<input class="setting-control" id="max-requests" type="number" min="10" max="5000" step="10" />
+			</label>
+			<div class="setting-actions">
+				<button id="apply-runtime-settings" type="button">Apply settings</button>
+				<button id="reset-runtime-settings" type="button">Reset defaults</button>
+				<button id="revert-runtime-settings" type="button">Revert inputs</button>
+			</div>
+			<p class="settings-status" id="settings-status" role="status"></p>
+			<details class="dev-options">
+				<summary>Dev options</summary>
+				<div class="dev-actions">
+					<button id="open-feature-flags" type="button">Scramjet Feature Flags</button>
+					<button id="open-live-requests" type="button">Live Requests</button>
+				</div>
+			</details>
+		</dialog>
+		<script>
+			(() => {
+				const messageToken = "{{PREFERENCE_TOKEN}}";
+				const themeSelect = document.querySelector("#theme-select");
+				const cloakSelect = document.querySelector("#cloak-select");
+				const activeClientCount = document.querySelector("#active-client-count");
+				const status = document.querySelector("#settings-status");
+				const settings = { theme: "stark-night", cloak: "none", showClientCount: true };
+				let savedRuntimeSettings;
+				let runtimeDefaults;
+
+				function updateStatus(message) {
+					status.textContent = message;
+				}
+
+				function applySettings(nextSettings) {
+					document.body.dataset.theme = nextSettings.theme;
+					themeSelect.value = nextSettings.theme;
+					cloakSelect.value = nextSettings.cloak;
+					activeClientCount.checked = nextSettings.showClientCount !== false;
+				}
+
+				function applyRuntimeSettings(nextSettings) {
+					savedRuntimeSettings = { ...nextSettings };
+					document.querySelector("#wisp-url").value = nextSettings.wispUrl;
+					document.querySelector("#transport-select").value = nextSettings.transport;
+					document.querySelector("#home-url").value = nextSettings.homeUrl;
+					document.querySelector("#max-requests").value = nextSettings.maxRequests;
+				}
+
+				function saveRuntimeSettings(statusMessage = "Settings saved.") {
+					updateStatus("Applying settings...");
+					window.parent.postMessage(
+						{
+							type: "scramjet-homepage-runtime-settings",
+							token: messageToken,
+							statusMessage,
+							settings: {
+								wispUrl: document.querySelector("#wisp-url").value,
+								transport: document.querySelector("#transport-select").value,
+								homeUrl: document.querySelector("#home-url").value,
+								maxRequests: document.querySelector("#max-requests").value,
+							},
+						},
+						"*"
+					);
+				}
+
+				window.addEventListener("message", (event) => {
+					if (event.source !== window.parent || !event.data || event.data.token !== messageToken) {
+						return;
+					}
+
+					if (event.data.type === "scramjet-homepage-init") {
+						applySettings(event.data.settings);
+						applyRuntimeSettings(event.data.runtimeSettings);
+						runtimeDefaults = event.data.runtimeDefaults;
+						updateStatus("");
+					} else if (event.data.type === "scramjet-homepage-runtime-settings-saved") {
+						applyRuntimeSettings(event.data.settings);
+						updateStatus(event.data.statusMessage || "Settings saved.");
+					} else if (event.data.type === "scramjet-homepage-error") {
+						updateStatus(event.data.message);
+					}
+				});
+
+				function saveSettings() {
+					settings.theme = themeSelect.value;
+					settings.cloak = cloakSelect.value;
+					settings.showClientCount = activeClientCount.checked;
+					document.body.dataset.theme = settings.theme;
+					updateStatus("");
+					window.parent.postMessage(
+						{
+							type: "scramjet-homepage-settings",
+							token: messageToken,
+							settings,
+						},
+						"*"
+					);
+				}
+
+				function submitHomepageSearch() {
+					const query = document.querySelector("#homepage-query").value.trim();
+					if (!query) return;
+
+					window.parent.postMessage(
+						{
+							type: "scramjet-homepage-navigate",
+							token: messageToken,
+							query,
+						},
+						"*"
+					);
+				}
+
+				themeSelect.addEventListener("change", saveSettings);
+				cloakSelect.addEventListener("change", saveSettings);
+				activeClientCount.addEventListener("change", saveSettings);
+				document.querySelector("#apply-runtime-settings").addEventListener("click", () => {
+					saveRuntimeSettings();
+				});
+				document.querySelector("#reset-runtime-settings").addEventListener("click", () => {
+					if (!runtimeDefaults) {
+						updateStatus("Default settings are not available.");
+						return;
+					}
+					applyRuntimeSettings(runtimeDefaults);
+					saveRuntimeSettings("Defaults restored.");
+				});
+				document.querySelector("#revert-runtime-settings").addEventListener("click", () => {
+					if (!savedRuntimeSettings) {
+						updateStatus("Saved settings are not available.");
+						return;
+					}
+					applyRuntimeSettings(savedRuntimeSettings);
+					updateStatus("Inputs reverted to saved settings.");
+				});
+				document
+					.querySelector("#settings-button")
+					.addEventListener("click", () => document.querySelector("#settings-dialog").showModal());
+				document
+					.querySelector("#close-settings")
+					.addEventListener("click", () => document.querySelector("#settings-dialog").close());
+				document.querySelector("#homepage-search").addEventListener("submit", (event) => {
+					event.preventDefault();
+					submitHomepageSearch();
+				});
+				document.querySelector("#homepage-query").addEventListener("keydown", (event) => {
+					if (event.key !== "Enter") return;
+					event.preventDefault();
+					submitHomepageSearch();
+				});
+				document.querySelector("#open-feature-flags").addEventListener("click", () => {
+					window.parent.postMessage(
+						{
+							type: "scramjet-homepage-open-dev-options",
+							token: messageToken,
+						},
+						"*"
+					);
+				});
+				document.querySelector("#open-live-requests").addEventListener("click", () => {
+					window.parent.postMessage(
+						{
+							type: "scramjet-homepage-open-requests",
+							token: messageToken,
+						},
+						"*"
+					);
+				});
+			})();
+		</script>
+	</body>
+</html>
